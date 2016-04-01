@@ -95,11 +95,13 @@ import           Data.Aeson              (ToJSON, encode)
 import           Data.ByteString         (ByteString)
 import           Data.ByteString.Lazy    (fromStrict, toStrict)
 import qualified Data.ByteString.Lazy    as LBS (ByteString)
+import           Data.CaseInsensitive    (original)
 import qualified Data.Map                as M
 import           Data.Maybe              (fromMaybe)
 import           Data.Text               (Text)
 import qualified Data.Text               as T
 import qualified Data.Text.Encoding      as T
+import           Network.HTTP.Media      (mainType, subType, (//), parseAccept)
 import           Snap.Core               (Response (..), getHeader)
 import qualified Snap.Core               as Snap
 import           Snap.Snaplet            (Handler, Snaplet, SnapletInit,
@@ -544,10 +546,12 @@ respStatus = RespCode . rspStatus
 parse200 :: Response -> IO TestResponse
 parse200 resp =
     let body        = getResponseBody resp
-        contentType = getHeader "content-type" resp in
-    case contentType of
-      Just "application/json" -> Json 200 . fromStrict <$> body
-      _                       -> Html 200 . T.decodeUtf8 <$> body
+        mContentType = getHeader "content-type" resp >>= parseAccept in
+    case mContentType of
+      Just contentType -> if (original $ mainType contentType) // (original $ subType contentType) == "application" // "json"
+                          then Json 200 . fromStrict <$> body
+                          else Html 200 . T.decodeUtf8 <$> body
+      _                -> Html 200 . T.decodeUtf8 <$> body
 
 -- | Runs a request against a given handler (often the whole site),
 -- with the given state. Returns any triggered exception, or the response.

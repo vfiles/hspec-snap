@@ -6,4 +6,5 @@ extra-deps:
 - hspec-core-2.2.0
 - hspec-expectations-0.7.2
 - hspec-discover-2.2.0
+- http-media-0.6.3
 resolver: lts-2.17
