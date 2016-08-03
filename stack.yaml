@@ -18,4 +18,5 @@ extra-deps:
 - readable-0.3.1
 - test-framework-smallcheck-0.2
 - openssl-streams-1.2.1.0
+- http-media-0.6.3
 resolver: lts-2.17
