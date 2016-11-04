@@ -27,7 +27,7 @@ directory.
 
 ## Tests
 
-You can run the test suite with `cabal test`. When the robots 
+You can run the test suite with `stack test` if you are using stack, or `cabal test` if not. When the robots
 last ran the suite, it: [![Circle CI](https://circleci.com/gh/dbp/hspec-snap.svg?style=svg&circle-token=cb855793cfa202fa807ffaf6adb3be979be457b3)](https://circleci.com/gh/dbp/hspec-snap)
 
 ## License
@@ -39,3 +39,5 @@ BSD3
 Daniel Patterson (dbp@dbpmail.net)
 
 Tim Adams (timmy_tofu@linux.com)
+
+Greg Hale (imalsogreg@gmail.com)
